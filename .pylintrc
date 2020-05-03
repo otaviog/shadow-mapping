@@ -1,0 +1,8 @@
+[pylint]
+good-names = i,j,k,ex,Run,_,x,y,X,Y,x1,x2,y1,y2,g,p,t
+output-format = colorized
+max-line-length = 100
+extension-pkg-whitelist = torch
+ignored-modules = numpy, PurePath
+generated-members=torch.*
+disable=too-many-arguments,import-outside-toplevel,not-callable,too-many-locals

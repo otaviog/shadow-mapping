@@ -1,6 +1,7 @@
 # Shadow Mapping Sample
 
-Simple PCF shadow mapping example for demonstrating [TensorViz](). 
+Simple PCF shadow mapping example using
+[TensorViz](https://gitlab.com/mipl/3d-reconstruction/tensorviz).
 
 ![](screenshot.png)
 
@@ -8,16 +9,29 @@ Thanks to [Joey de
 Vries](https://learnopengl.com/Advanced-Lighting/Shadows/Shadow-Mapping)
 for bias and PCF explanation.
 
+## Try it using Docker
 
-## How to try
+The script [`tv-try`](tv-try) launches a docker image containg all dependencies of TensorViz.
 
-Install TensorViz.
-
+```shell
+shadow-mapping$ ./tv-try demo.py <input-object>
 ```
-$ git clone 
+
+Or use the rule `docker-demo-buddha` from the Makefile.
+
+```shell
+shadow-mapping$ make docker-demo-buddha
 ```
 
-Run the rule `demo-buddha-highres`, to download the Buddha from the [Standord 3D Scanning Repository](http://graphics.stanford.edu/data/3Dscanrep/) and run the demo.
+## Try it using the source code.
+
+Install TensorViz into your environment following the instructions on
+its [repository](https://gitlab.com/mipl/3d-reconstruction/tensorviz).
+
+Run the rule `demo-buddha-highres`, to download the Buddha from the
+[Standord 3D Scanning
+Repository](http://graphics.stanford.edu/data/3Dscanrep/) and run the
+demo.
 
 ```
 $ make demo-budha-highres

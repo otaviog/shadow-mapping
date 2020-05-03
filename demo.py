@@ -7,7 +7,6 @@ from pathlib import Path
 import argparse
 
 import torch
-import matplotlib.pyplot as plt
 import tenviz
 
 
@@ -82,13 +81,19 @@ def _create_shadow_shaders(mesh, light_pos, light_projection_view,
 
 
 def shadow_map_demo(mesh):
+    """Run the shadow mapping demo.
+
+    Args:
+
+        mesh (:obj:`tensorviz.geometry.Geometry`): Mesh geometry.
+    """
     light_proj = torch.from_numpy(tenviz.Projection.perspective(
         45, 0.01, 10000, aspect=1).to_matrix()).float()
     light_view = torch.tensor(
-        [[6.1826736e-01, -1.7682267e-02,  7.8576899e-01,  0.0000000e+00],
-         [6.8335772e-01,  5.0599408e-01, -5.2630055e-01, -6.2286854e-06],
-         [-3.8828495e-01,  8.6235815e-01,  3.2492039e-01, -1.2934189e+00],
-         [0.0000000e+00,  0.0000000e+00,  0.0000000e+00,  1.0000000e+00]])
+        [[6.1826736e-01, -1.7682267e-02, 7.8576899e-01, 0.0000000e+00],
+         [6.8335772e-01, 5.0599408e-01, -5.2630055e-01, -6.2286854e-06],
+         [-3.8828495e-01, 8.6235815e-01, 3.2492039e-01, -1.2934189e+00],
+         [0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 1.0000000e+00]])
 
     light_pos = light_view.inverse()[:3, 3]
 
@@ -144,6 +149,7 @@ def shadow_map_demo(mesh):
         if key == 'V':
             with ctx.current():
                 depth_image = depth_framebuffer.get_depth().to_tensor()
+                import matplotlib.pyplot as plt
                 plt.imshow(depth_image.cpu().numpy())
                 plt.show()
 

@@ -1,0 +1,48 @@
+#!/usr/bin/env python
+
+"""This script launches a python script using otaviog/tensorviz:try
+docker environment. Requires Linux and NVidia docker.
+"""
+
+import os
+import argparse
+import grp
+from pathlib import Path
+
+
+def _main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--mapping-dir")
+    parser.add_argument("-v", "--verbose", action="store_true",
+                        help="Shows docker command")
+    parser.add_argument("script", help="The target python script")
+    parser.add_argument("rest", nargs='*')
+
+    args = parser.parse_args()
+
+    docker_grp = grp.getgrnam('docker')[2]
+    pwd = Path(".").absolute()
+
+    cmd = """docker run --gpus all --volume={pwd}:/exec
+             --user={uid}:{gid}
+             --env="DISPLAY"
+             -e NVIDIA_DRIVER_CAPABILITIES=all
+             -e XAUTHORITY
+	     --volume="/etc/group:/etc/group:ro" 
+	     --volume="/etc/passwd:/etc/passwd:ro" 
+	     --volume="/etc/shadow:/etc/shadow:ro" 
+	     --volume="/etc/sudoers.d:/etc/sudoers.d:ro" 
+	     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw"
+             --workdir=/exec
+             -it otaviog/tensorviz:try /exec/{script} {args}""".format(
+                 pwd=pwd, uid=os.getuid(),
+                 gid=docker_grp,
+                 script=args.script,
+                 args=" ".join(args.rest))
+    cmd = " ".join(cmd.split())
+    if args.verbose:
+        print(cmd)
+    os.system(cmd)
+
+if __name__ == '__main__':
+    _main()
