@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """This script launches a python script using otaviog/tensorviz:try
 docker environment. Requires Linux and NVidia docker.
@@ -34,7 +34,7 @@ def _main():
 	     --volume="/etc/sudoers.d:/etc/sudoers.d:ro" 
 	     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw"
              --workdir=/exec
-             -it otaviog/tensorviz:try /exec/{script} {args}""".format(
+             -it otaviog/tensorviz:latest /exec/{script} {args}""".format(
                  pwd=pwd, uid=os.getuid(),
                  gid=docker_grp,
                  script=args.script,
